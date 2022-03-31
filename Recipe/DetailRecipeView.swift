@@ -8,11 +8,14 @@
 import SwiftUI
 import CoreData
 
+
 struct DetailRecipeView: View {
     
     @Environment(\.managedObjectContext) var moc
     @Environment(\.dismiss) var dismiss
     @State private var showingDeleteAlert = false
+    @State private var showingEditScreen = false
+
     
     let recipe: Recipe
     
@@ -22,13 +25,24 @@ struct DetailRecipeView: View {
         dismiss()
     }
     
+    
     var body: some View {
         ScrollView {
             VStack {
-                Text("Preparation time: \(recipe.duration)")
+                
+                Section {
+                    Image(uiImage: UIImage(data: recipe.image ?? Data()) ?? UIImage())
+                        .resizable()
+                        .scaledToFit()
+                    Spacer()
+                    Text("Preparation time: \(recipe.duration)")
+                }
+                
                 Section {
                     Text("Ingredients")
-                    Text(recipe.ingredients ?? "Unknown")
+                    let sample = recipe.ingredients?.components(separatedBy: ",")
+                    let ingredientNames = sample?.joined(separator: "\n")
+                    Text(ingredientNames ?? "Unknown")
                 }
                 
                 Section {
@@ -48,12 +62,24 @@ struct DetailRecipeView: View {
         } message: {
             Text("Are you sure?")
         }
+        .sheet(isPresented: $showingEditScreen) {
+            EditRecipeView(recipe: recipe, temp: recipe.ingredients?.components(separatedBy: ",") ?? [])
+        }
         .toolbar {
-            Button {
-                showingDeleteAlert = true
-            } label: {
-                Label("Delete this recipe", systemImage: "trash")
+            HStack{
+                Button {
+                    showingEditScreen = true
+                } label: {
+                    Label("Delete this recipe", systemImage: "square.and.pencil")
+                }
+                Button {
+                    showingDeleteAlert = true
+                } label: {
+                    Label("Delete this recipe", systemImage: "trash")
+                }
             }
+            
+            
         }
     }
 }
@@ -71,3 +97,24 @@ struct DetailRecipeView_Previews: PreviewProvider {
     }
 }
 
+extension String {
+    init(sep:String, _ lines:String...){
+        self = ""
+        for (idx, item) in lines.enumerated() {
+            self += "\(item)"
+            if idx < lines.count-1 {
+                self += sep
+            }
+        }
+    }
+
+    init(_ lines:String...){
+        self = ""
+        for (idx, item) in lines.enumerated() {
+            self += "\(item)"
+            if idx < lines.count-1 {
+                self += "\n"
+            }
+        }
+    }
+}
