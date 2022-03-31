@@ -29,26 +29,38 @@ struct DetailRecipeView: View {
     var body: some View {
         ScrollView {
             VStack {
-                
-                Section {
-                    Image(uiImage: UIImage(data: recipe.image ?? Data()) ?? UIImage())
-                        .resizable()
-                        .scaledToFit()
+                    Section {
+                        Image(uiImage: UIImage(data: recipe.image ?? Data()) ?? UIImage())
+                            .resizable()
+                            .scaledToFit()
+                            .padding(EdgeInsets(top: 15, leading: 15, bottom: 0, trailing: 15))
+                        Text("Preparation time: \(recipe.duration) minutes")
+                            
+                    }
                     Spacer()
-                    Text("Preparation time: \(recipe.duration)")
-                }
+                    Section {
+                        Text("Ingredients")
+                            .fontWeight(.bold)
+                        let samples = recipe.ingredients?.components(separatedBy: ",")
+                        ForEach(samples ?? [], id: \.self) { sample in
+                            Text("◾️ \(sample )")
+                                .frame(maxWidth: .infinity, alignment: .leading)
+                                .padding(EdgeInsets(top: 0, leading: 15, bottom: 0, trailing: 0))
+                        }
+                    }
+                    Spacer()
+                    Section {
+                        Text("Directions")
+                            .fontWeight(.bold)
+                        Text(recipe.instructions ?? "Unknown")
+                            .frame(maxWidth: .infinity, alignment: .leading)
+                            .padding(EdgeInsets(top: 0, leading: 15, bottom: 20, trailing: 0))
+                    }
                 
-                Section {
-                    Text("Ingredients")
-                    let sample = recipe.ingredients?.components(separatedBy: ",")
-                    let ingredientNames = sample?.joined(separator: "\n")
-                    Text(ingredientNames ?? "Unknown")
-                }
                 
-                Section {
-                    Text(recipe.instructions ?? "Unknown")
-                }
             }
+            .background(Color.gray.opacity(0.2))
+            .multilineTextAlignment(.leading)
             
 
 
@@ -81,6 +93,7 @@ struct DetailRecipeView: View {
             
             
         }
+        .padding()
     }
 }
 

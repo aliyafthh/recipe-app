@@ -12,14 +12,24 @@ struct ContentView: View {
     @FetchRequest(sortDescriptors: [SortDescriptor(\.title), SortDescriptor(\.recipeType)]) var recipes: FetchedResults<Recipe>
     
     @State private var showingAddScreen = false
+    @State private var showingFilterScreen = false
+    @State private var recipeType = ""
+    let recipeTypes = ["Show All","Appetiser", "Breakfast", "Lunch", "Dinner", "Dessert"]
+    @Environment(\.dismiss) var dismiss
     
-    
-    func deleteBooks(at offsets: IndexSet) {
-        for offset in offsets {
-            // find this book in our fetch request
-            let recipe = recipes[offset]
+    func filterRecipes(recipeType: String) {
+        if(recipeType == "Show All"){
+            recipes.nsPredicate = NSPredicate(format: "recipeType IN %@", recipeTypes)
+        }else{
+            recipes.nsPredicate = NSPredicate(format: "recipeType == '\(recipeType)'")
 
-            // delete it from the context
+        }
+    }
+    
+    
+    func deleteRecipes(at offsets: IndexSet) {
+        for offset in offsets {
+            let recipe = recipes[offset]
             moc.delete(recipe)
         }
 
@@ -28,7 +38,10 @@ struct ContentView: View {
     }
     
     var body: some View {
+        
+        
         NavigationView {
+            VStack{
             List {
                 ForEach(recipes) { recipe in
                     NavigationLink {
@@ -39,35 +52,107 @@ struct ContentView: View {
                         }
                     }
                 }
-                .onDelete(perform: deleteBooks)
+                .onDelete(perform: deleteRecipes)
             }
-               .navigationTitle("Recipe")
+            .navigationTitle("Recipes 🥘")
                .toolbar {
                    ToolbarItem(placement: .navigationBarTrailing) {
                        Button {
-                           showingAddScreen.toggle()
+                           showingFilterScreen = true
                        } label: {
-                           Label("Add Recipe", systemImage: "plus")
+                           Label("Filter", systemImage: "line.3.horizontal.decrease.circle")
                        }
                    }
                    ToolbarItem(placement: .navigationBarLeading) {
                        EditButton()
                    }
-//                   ToolbarItem() {
-//                       Button {
-//                           books.nsPredicate = NSPredicate(format: "author == 'Suzanne Collins'")                       } label: {
-//                           Label("Add Book", systemImage: "plus")
-//                       }
-//                   }
                    
                }
                .sheet(isPresented: $showingAddScreen) {
                    AddRecipeView()
                }
+               .sheet(isPresented: $showingFilterScreen) {
+                   
+                   Text("Filter By")
+                       .fontWeight(.bold)
+                       .padding()
+                   Section {
+                      Text("Show All 🍱")
+                           .padding()
+                           .frame(maxWidth: .infinity)
+                   }
+//                   .background(Color.pink)
+                   .onTapGesture {
+                       filterRecipes(recipeType: "Show All")
+                       showingFilterScreen = false
+                   }
+                   Section {
+                      Text("Appetiser 🍲")
+                           .padding()
+                           .frame(maxWidth: .infinity)
+                   }
+                   .onTapGesture {
+                       filterRecipes(recipeType: "Appetiser")
+                       showingFilterScreen = false
+                   }
+                   Section {
+                      Text("Breakfast 🥐")
+                           .padding()
+                           .frame(maxWidth: .infinity)
+                   }
+                   .onTapGesture {
+                       filterRecipes(recipeType: "Breakfast")
+                       showingFilterScreen = false
+                   }
+                   Section {
+                      Text("Lunch 🍛")
+                           .padding()
+                           .frame(maxWidth: .infinity)
+                   }
+                   .onTapGesture {
+                       filterRecipes(recipeType: "Lunch")
+                       showingFilterScreen = false
+                   }
+                   Section {
+                      Text("Dinner 🍗")
+                           .padding()
+                           .frame(maxWidth: .infinity)
+                   }
+                   .onTapGesture {
+                       filterRecipes(recipeType: "Dinner")
+                       showingFilterScreen = false
+                   }
+                   Section {
+                      Text("Dessert 🍧")
+                           .padding()
+                           .frame(maxWidth: .infinity)
+                   }
+                   .onTapGesture {
+                       filterRecipes(recipeType: "Dessert")
+                       showingFilterScreen = false
+                   }
+                   
+//                   Picker("Recipe Type", selection: $recipeType) {
+//                       ForEach(recipeTypes, id: \.self) {
+//                           Text($0)
+//                       }
+//                   }
+
+                    
+               }
+                Button {
+                    showingAddScreen.toggle()
+                    recipes.nsPredicate = NSPredicate(format: "recipeType IN %@", recipeTypes)
+                } label: {
+                    Label("Add Recipe", systemImage: "plus")
+                }
+                .padding()
        }
+            
+        }
         
-        
-    }
+        }
+    
 }
 
 struct ContentView_Previews: PreviewProvider {

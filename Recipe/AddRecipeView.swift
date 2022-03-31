@@ -30,35 +30,20 @@ struct AddRecipeView: View {
         image = Image(uiImage: inputImage)
     }
     
-//    func save() {
-//        let pickedImage = inputImage?.jpegData(compressionQuality: 1.0)
-//        let entityName =  NSEntityDescription.entity(forEntityName: "Test", in: moc)!
-//        let image = NSManagedObject(entity: entityName, insertInto: moc)
-//        image.setValue(pickedImage, forKeyPath: "image")
-//        do {
-//          try moc.save()
-//            print("saved")
-//        } catch let error as NSError {
-//          print("Could not save. \(error), \(error.userInfo)")
-//        }
-//    }
-    
     var body: some View {
         NavigationView {
             Form {
                 Section {
                     TextField("Name of recipe", text: $title)
-                    Section(header: Text("Picture", comment: "Section Header - Picture")) {
-                        if image != nil {
-                            image!
-                                .resizable()
-                                .scaledToFit()
-                                .onTapGesture { self.showImagePicker.toggle() }
-                        } else {
-                            Button(action: { self.showImagePicker.toggle() }) {
-                                Text("Select Image", comment: "Select Image Button")
-                                    .accessibility(identifier: "Select Image")
-                            }
+                    if image != nil {
+                        image!
+                            .resizable()
+                            .scaledToFit()
+                            .onTapGesture { self.showImagePicker.toggle() }
+                    } else {
+                        Button(action: { self.showImagePicker.toggle() }) {
+                            Text("Select Image", comment: "Select Image Button")
+                                .accessibility(identifier: "Select Image")
                         }
                     }
                     Picker("Recipe Type", selection: $recipeType) {
@@ -66,12 +51,14 @@ struct AddRecipeView: View {
                             Text($0)
                         }
                     }
-                    TextField("Duration", text: $duration)
+                    TextField("20 minutes", text: $duration)
+                        .keyboardType(.numberPad)
+                } header: {
+                    Text("Recipe Details")
                 }
-                
                 Section {
                     ForEach(ingredientNames.indices, id: \.self) { index in
-                        TextField("Example Field", text: $ingredientNames[index]) 
+                        TextField("Example: 2 Eggs", text: $ingredientNames[index])
                     }
                     
                     Button(action: {
@@ -80,49 +67,63 @@ struct AddRecipeView: View {
                         Image(systemName: "plus.circle")
                             .foregroundColor(Color.black)
                     }
+                } header: {
+                    Text("Ingredients")
                 }
+
 
                 Section {
                     TextEditor(text: $instructions)
+                        .frame(width: 200, height: 200)
                 } header: {
-                    Text("Write a review")
+                    Text("Directions")
                 }
+                
+                Button(action: {
+                    for i in ingredientNames.indices {
 
-                Section {
-                    Button("Save") {
-                        
-                        for i in ingredientNames.indices {
-                           
-                            if(i == ingredientNames.count - 1){
-                                ingredients = ingredients + "\(ingredientNames[i])"
-                            }else {
-                                ingredients = ingredients + "\(ingredientNames[i]),"
-                            }
-                            
+                        if(i == ingredientNames.count - 1){
+                            ingredients = ingredients + "\(ingredientNames[i])"
+                        }else {
+                            ingredients = ingredients + "\(ingredientNames[i]),"
                         }
-                        
-                        let newRecipe = Recipe(context: moc)
-                        newRecipe.id = UUID()
-                        newRecipe.title = title
-                        newRecipe.recipeType = recipeType
-                        newRecipe.duration = Int16(duration) ?? 0
-                        newRecipe.ingredients = ingredients
-                        newRecipe.instructions = instructions
-                        newRecipe.image = inputImage?.jpegData(compressionQuality: 1.0)
-                        
-//                        let pickedImage = inputImage?.jpegData(compressionQuality: 1.0)
-//                        let entityName =  NSEntityDescription.entity(forEntityName: "Recipe", in: moc)!
-//                        let image = NSManagedObject(entity: entityName, insertInto: moc)
-//                        image.setValue(pickedImage, forKeyPath: "image")
-//                        image.setValue(title, forKey: "title")
 
-                        try? moc.save()
-                        dismiss()
                     }
-                }
-                .disabled(title.isEmpty || duration.isEmpty || instructions.isEmpty)
+
+                    let newRecipe = Recipe(context: moc)
+                    newRecipe.id = UUID()
+                    newRecipe.title = title
+                    newRecipe.recipeType = recipeType
+                    newRecipe.duration = Int16(duration) ?? 0
+                    newRecipe.ingredients = ingredients
+                    newRecipe.instructions = instructions
+                    newRecipe.image = inputImage?.jpegData(compressionQuality: 1.0)
+
+                    try? moc.save()
+                    dismiss()
+                                   }) {
+                                       HStack {
+                                           Spacer()
+                                           Text("Save")
+                                           Spacer()
+                                       }
+                                   }
+                                   .foregroundColor(.white)
+                                   .padding(10)
+                                   .background(Color.blue.opacity(0.5))
+                                   .cornerRadius(8)
+                                   .disabled(title.isEmpty || duration.isEmpty || instructions.isEmpty || ingredientNames.isEmpty)
+
             }
-            .navigationTitle("Add Recipe")
+            .navigationTitle("Add Recipe 🍔")
+            .padding()
+            .background(Color.gray.opacity(0.3))
+            .onAppear {
+              UITableView.appearance().backgroundColor = .clear
+            }
+            .onDisappear {
+              UITableView.appearance().backgroundColor = .systemGroupedBackground
+            }
             .sheet(isPresented: $showImagePicker, onDismiss: loadImage) { ImagePicker(image: self.$inputImage) }
         }
     }

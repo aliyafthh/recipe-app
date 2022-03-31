@@ -1,8 +1,109 @@
 <?xml version="1.0"?>
 <Recipe>
-      <RecipeType>Appetiser</RecipeType>
-      <RecipeType>Breakfast</RecipeType>
-      <RecipeType>Lunch</RecipeType>
-      <RecipeType>Dinner</RecipeType>
-      <RecipeType>Dessert</RecipeType>
+      <id>1</id>
+      <title>Mushroom Soup</title>
+      <image></image>
+      <duration>40</duration>
+      <recipeType>Appetiser</recipeType>
+      <ingredients>4 tablespoons butter,
+          1 tablespoon oil,
+          2 onions diced,
+          4 cloves garlic minced,
+          1 1/2 pounds (750 g) fresh brown mushrooms sliced,
+          4 teaspoons chopped thyme divided,
+          1/2 cup Marsala wine (any dry red or white wine),
+          6 tablespoons all-purpose flour,
+          4 cups low sodium chicken broth or stock,
+          1-2 teaspoons salt adjust to taste,
+          1/2-1 teaspoons black cracked pepper adjust to taste,
+          2 beef bouillon cubes, crumbled,
+          1 cup heavy cream or half and half (sub with evaporated milk),
+          Chopped fresh parsley and thyme to serve
+      </ingredients>
+      <instructions>
+          Heat butter and oil in a large pot over medium-high heat until melted. Sauté onion for 2 to 3 minutes until softened. Cook garlic until fragrant, about 1 minute.
+          Add mushrooms and 2 teaspoons thyme, cook for 5 minutes. Pour in wine and allow to cook for 3 minutes.
+          Sprinkle mushrooms with flour, mix well and cook for 2 minutes. Add stock, mix again and bring to a boil. Reduce heat to low-medium heat, season with salt, pepper and crumbled bouillon cubes.
+          Cover and allow to simmer for 10-15 minutes, while occasionally stirring, until thickened.
+          Reduce heat to low, stir in cream or half and half. Allow to gently simmer (do not boil). Adjust salt and pepper to your taste.
+          Mix in parsley and remaining thyme. Serve warm.
+      </instructions>
+      
+      <id>2</id>
+      <title>Nasi Lemak</title>
+      <image></image>
+      <duration>60</duration>
+      <recipeType>Breakfast</recipeType>
+      <ingredients>
+      2 cups coconut milk,
+      2 cups water,
+      ¼ teaspoon ground ginger,
+      1 (1/2 inch) piece fresh ginger peeled and thinly sliced,
+      salt to taste,
+      1 whole bay leaf,
+      2 cups long grain rice rinsed and drained,
+      4 eggs,
+      1 cucumber,
+      1 cup oil for frying,
+      1 cup raw peanuts,
+      2 (4 ounce) package white anchovies washed,
+      2 tablespoons vegetable oil,
+      1 medium onion sliced,
+      3 cloves garlic thinly sliced,
+      3 shallots thinly sliced,
+      2 teaspoons chile paste,
+      3 tablespoons white sugar,
+      ¼ cup tamarind juice
+      </ingredients>
+      <instructions>
+          Step 1
+          In a medium saucepan over medium heat, stir together coconut milk, water, ground ginger, ginger root, salt, bay leaf, and rice. Cover, and bring to a boil. Reduce heat, and simmer for 20 to 30 minutes, or until done.
+
+          Step 2
+          Place eggs in a saucepan, and cover with cold water. Bring water to a boil, and immediately remove from heat. Cover, and let eggs stand in hot water for 10 to 12 minutes. Remove eggs from hot water, cool, peel and slice in half. Slice cucumber.
+
+          Step 3
+          Meanwhile, in a large skillet or wok, heat 1 cup vegetable oil over medium-high heat. Stir in peanuts and cook briefly, until lightly browned. Remove peanuts with a slotted spoon and place on paper towels to soak up excess grease. Return skillet to stove. Stir in the contents of one package anchovies; cook briefly, turning, until crisp. Remove with a slotted spoon and place on paper towels. Discard oil. Wipe out skillet.
+
+          Step 4
+          Heat 2 tablespoons oil in the skillet. Stir in the onion, garlic, and shallots; cook until fragrant, about 1 or 2 minutes. Mix in the chile paste, and cook for 10 minutes, stirring occasionally. If the chile paste is too dry, add a small amount of water. Stir in remaining anchovies; cook for 5 minutes. Stir in salt, sugar, and tamarind juice; simmer until sauce is thick, about 5 minutes.
+
+          Step 5
+          Serve the onion and garlic sauce over the warm rice, and top with peanuts, fried anchovies, cucumbers, and eggs.
+      </instructions>
+      
+      <id>3</id>
+      <title>Fish Curry</title>
+      <image></image>
+      <duration>60</duration>
+      <recipeType>Lunch</recipeType>
+      <ingredients>
+          2 tbsp Cooking Oil,
+          400g Fish Slices,
+          1 tsp Salt,
+          2 pcs Onion,
+          2 pcs Tomato,
+          1/4 tsp Turmeric Powder,
+          2 tbsp Desiccated Coconut,
+          1 tsp Fennel Seed,
+          1 tbsp Cooking Oil,
+          1 sprig Curry Leaf,
+          4 cloves Minced Garlic,
+          1/4 pcs Minced Ginger,
+          1/2 tsp Chili Powder,
+          1 tsp Garam Masala,
+          500ml Water,
+          4 pcs Ladyfinger
+      </ingredients>
+      <instructions>
+          Heat up a pan with cooking oil, mix remaining Ingredient A in a bowl and put into the pan and fry both sides until turn golden brown. Transfer to a plate and put aside.
+
+          Using the same pan, toss Ingredient B into the pan and stir-fry for 5 minutes until everything becomes mushy and well mixed, set aside and let chill. Add chilled Ingredient B into a blender and blend until it turns into a smooth paste.
+
+    
+          Heat up the pot with cooking oil, toss remaining Ingredient C into the pot and stir-fry for 2 minutes. Add Blended Ingredient B into the pot mix well and saute for another 3 minutes.
+
+          Pour water into the pot and stir well to form a thick gravy, switch to medium heat then let simmer for 5 minutes. Add Fried Ingredient A and remaining Ingredient D into the pot, let simmer for another 5 minutes while turning fish slices occasionally. Ready to serve.
+      </instructions>
+      
 </Recipe>

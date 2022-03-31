@@ -40,26 +40,34 @@ struct EditRecipeView: View {
             Form {
                 Section {
                     TextField(recipe.title ?? "Unknown", text: $title)
-                    Section {
                         if image != nil {
                             image!
                                 .resizable()
                                 .scaledToFit()
                                 .onTapGesture { self.showImagePicker.toggle() }
                         } else {
+                            if(recipe.image != nil){
+                                Image(uiImage: UIImage(data: recipe.image ?? Data()) ?? UIImage())
+                                    .resizable()
+                                    .scaledToFit()
+                                    .onTapGesture { self.showImagePicker.toggle() }
+                            }else{
+                                Button(action: { self.showImagePicker.toggle() }) {
+                                    Text("Select Image", comment: "Select Image Button")
+                                        .accessibility(identifier: "Select Image")
+                                }
+                            }
                             
-                            Image(uiImage: UIImage(data: recipe.image ?? Data()) ?? UIImage())
-                                .resizable()
-                                .scaledToFit()
-                                .onTapGesture { self.showImagePicker.toggle() }
                         }
-                    }
                     Picker("Recipe Type", selection: $recipeType) {
                         ForEach(recipeTypes, id: \.self) {
                             Text($0)
                         }
                     }
                     TextField("\(recipe.duration)", text: $duration)
+                        .keyboardType(.numberPad)
+                } header: {
+                    Text("Recipe Details")
                 }
                 
                 Section {
@@ -84,10 +92,11 @@ struct EditRecipeView: View {
                         }
 
                     }
+                } header: {
+                    Text("Ingredients")
+                }
                 
-
                 Section {
-//                    TextEditor(text: $instructions)
                     ZStack(alignment: .leading) {
                         if instructions.isEmpty {
                             Text(recipe.instructions ?? "Instructions")
@@ -99,14 +108,16 @@ struct EditRecipeView: View {
                             .padding(.all)
                     }
                 } header: {
-                    Text("Instructions")
+                    Text("Directions")
                 }
 
                 Section {
-                    Button("Save") {
-                        
+                    Button(action : {
+                        let sample = recipe.ingredients?.components(separatedBy: ",")
                         for i in ingredientNames.indices {
-                           
+                            if(ingredientNames[i] == ""){
+                                ingredientNames[i] = sample?[i] ?? ""
+                            }
                             if(i == ingredientNames.count - 1){
                                 ingredients = ingredients + "\(ingredientNames[i])"
                             }else {
@@ -152,7 +163,18 @@ struct EditRecipeView: View {
                                                
                         try? moc.save()
                         dismiss()
+                    }) {
+                        HStack {
+                            Spacer()
+                            Text("Save")
+                            Spacer()
+                        }
                     }
+                    .foregroundColor(.white)
+                    .padding(10)
+                    .background(Color.blue.opacity(0.5))
+                    .cornerRadius(8)
+                    
                 }
             }
             .navigationTitle(recipe.title ?? "Unknown")
@@ -160,7 +182,7 @@ struct EditRecipeView: View {
         }
     }
 }
-}
+
 
 struct EditRecipeView_Previews: PreviewProvider {
     static let moc = NSManagedObjectContext(concurrencyType: .mainQueueConcurrencyType)
